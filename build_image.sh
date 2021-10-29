@@ -8,6 +8,9 @@ type_in() {
       '-') c=minus ;;
       '/') c=slash ;;
       '.') c=dot ;;
+      '>') c=shift-dot ;;
+      '<') c=shift-comma ;;
+      '=') c=equal ;;
       '"') c=apostrophe ;;
       '\*') c=asterisk ;;
       '_') echo "sendkey shift-minus" | nc -q0 127.0.0.1 $MONITOR_PORT && continue ;;
@@ -21,7 +24,7 @@ type_in() {
   echo "sendkey kp_enter" | nc -q0 127.0.0.1 $MONITOR_PORT
 }
 
-#sh download.sh
+sh download.sh
 DISK=hdd.img
 MONITOR_PORT=9999
 
@@ -38,7 +41,14 @@ qemu-system-x86_64 \
 
 sleep 20
 type_in root
-type_in apk%add%openssh
-type_in sed%-i%'"s/.*~permit~root~login.*/~permit~root~login%yes/g"'%/etc/ssh/sshd_config
-type_in sed%-i%'"s/.*~permit~empty~passwords.*/~permit~empty~passwords%yes/g"'%/etc/ssh/sshd_config
-type_in rc-service%sshd%start
+type_in "cat%>%answer_file"
+type_in '~k~e~y~m~a~p~o~p~t~s="us%us"'
+echo "sendkey ctrl-d" | nc -q0 127.0.0.1 $MONITOR_PORT
+type_in setup-alpine%-f%answer_file
+#type_in apk%add%openssh
+#type_in sed%-i%'"s/.*~permit~root~login.*/~permit~root~login%yes/g"'%/etc/ssh/sshd_config
+#sleep 1
+#type_in sed%-i%'"s/.*~permit~empty~passwords.*/~permit~empty~passwords%yes/g"'%/etc/ssh/sshd_config
+#sleep 1
+#type_in sed%-i%'"s/.*~password~authentication.*/~password~authentication%yes/g"'%/etc/ssh/sshd_config
+#type_in rc-service%sshd%start
