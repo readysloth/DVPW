@@ -85,3 +85,19 @@ type_in sed%-i%'"s/.*~permit~empty~passwords.*/~permit~empty~passwords%yes/g"'%/
 sleep 1
 type_in sed%-i%'"s/.*~password~authentication.*/~password~authentication%yes/g"'%/etc/ssh/sshd_config
 type_in rc-service%sshd%restart
+sleep 20
+
+
+DOCKER_INSTALL_SCRIPT='
+sed -i -e 1d -e "s/#//" /etc/apk/repositories &&
+apk update ;
+apk add tmux;
+apk add docker;
+docker pull ubuntu
+docker pull busybox
+'
+
+echo "+-------+"
+echo "|Enter 1|"
+echo "+-------+"
+ssh -oStrictHostKeyChecking=no root@localhost -p 12222 "$DOCKER_INSTALL_SCRIPT"
