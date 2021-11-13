@@ -20,7 +20,7 @@ type_in() {
     [ "$DO_UPPERCASE" == yes ] && DO_UPPERCASE= && c="shift-$c"
 
     echo "sendkey $c" | nc -q0 127.0.0.1 $MONITOR_PORT
-    sleep 0.3
+    sleep 0.1
   done
   echo "sendkey kp_enter" | nc -q0 127.0.0.1 $MONITOR_PORT
 }
@@ -93,11 +93,12 @@ sed -i -e 1d -e "s/#//" /etc/apk/repositories &&
 apk update ;
 apk add tmux;
 apk add docker;
-docker pull ubuntu
-docker pull busybox
+rc-update add docker default;
+rc-service docker start;
+sleep 5;
+docker pull ubuntu;
+docker pull busybox;
+docker pull mcr.microsoft.com/powershell
 '
 
-echo "+-------+"
-echo "|Enter 1|"
-echo "+-------+"
-ssh -oStrictHostKeyChecking=no root@localhost -p 12222 "$DOCKER_INSTALL_SCRIPT"
+SSHPASS=1 sshpass -e ssh -oStrictHostKeyChecking=no root@localhost -p 12222 "$DOCKER_INSTALL_SCRIPT"
