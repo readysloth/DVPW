@@ -90,15 +90,15 @@ sleep 20
 
 DOCKER_INSTALL_SCRIPT='
 sed -i -e 1d -e "s/#//" /etc/apk/repositories &&
-apk update ;
-apk add tmux;
-apk add docker;
+apk update;
+apk add tmux docker vim nano;
 rc-update add docker default;
 rc-service docker start;
 sleep 5;
 docker pull ubuntu;
 docker pull busybox;
 docker pull mcr.microsoft.com/powershell
+poweroff
 '
 
 SSHPASS=1 sshpass -e ssh -oStrictHostKeyChecking=no root@localhost -p 12222 "$DOCKER_INSTALL_SCRIPT"
