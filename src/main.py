@@ -6,7 +6,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 
 QEMU_START_STR = """
 qemu-system-x86_64 \
-  -enable-kvm \
+  -accel tcg \
   -m 512 \
   -hda {disk} \
   -snapshot \
