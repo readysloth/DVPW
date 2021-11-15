@@ -37,7 +37,7 @@ class RedirectHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         qemu_process, qemu_port = QEMU_INSTANCES.pop(0)
         QEMU_INSTANCES.append(popen_qemu())
-        redirect_url = "http://localhost:8888/?hostname=localhost&username=root&password=MQo=&port={}&command=tmux;poweroff"
+        redirect_url = "http://0.0.0.0:8888/?hostname=localhost&username=root&password=MQo=&port={}&command=tmux;poweroff"
         self.send_response(302)
         self.send_header('Location', redirect_url.format(qemu_port))
         while True:
